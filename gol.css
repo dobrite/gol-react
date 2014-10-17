@@ -1,0 +1,18 @@
+#gol span {
+  display: inline-block;
+  height: 100%;
+  width: 30px;
+}
+
+#gol .row {
+  height: 30px;
+}
+
+.live {
+  background-color: green;
+}
+
+.dead {
+  background-color: black;
+}
+
