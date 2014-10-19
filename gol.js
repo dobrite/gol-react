@@ -42,6 +42,32 @@ var Cells = React.createClass({
   }
 });
 
+// https://gist.github.com/aemkei/1134658
+life = function(
+  input, // input array
+  size, // square stage size (width and height)
+  output, i, neighbours // placeholders
+){
+  // cycle through cells
+  for (
+    output = [i = size*size];
+    i--;
+    output[i] =
+      // alive if it has 3 neighbours
+      neighbours == 3 ||
+      // stay alive if cell has 2 neighbours
+      (input[i] && neighbours == 2)
+  ) {
+    neighbours =
+      // count neighbours
+      input[i-size-1] + input[i-size] + input[i-size+1] +
+      input[i     -1] +                 input[i     +1] +
+      input[i+size-1] + input[i+size] + input[i+size+1];
+  }
+
+  return output;
+}
+
 React.renderComponent(
   <Cells />,
   document.getElementById('gol')
