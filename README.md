@@ -5,9 +5,10 @@ Use
 ---
 
     python -m SimpleHTTPServer
-    open browser to http://localhost:8000
+
+open browser to [localhost:8000](http://localhost:8000)
 
 Or
 --
 
-    http://jsbin.com/tovatituqu/1/edit?html,css,js,output
+[jsbin](http://jsbin.com/tovatituqu/1/edit?html,css,js,output)
