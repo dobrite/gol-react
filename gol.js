@@ -53,23 +53,20 @@ var Col = React.createClass({
 });
 
 // https://gist.github.com/aemkei/1134658
-var life = function (input, output, i, neighbours){
-  var size = Math.sqrt(input.length);
-  // cycle through cells
-  for (
-    output = [i = size*size];
-    i--;
-    output[i] =
-      // alive if it has 3 neighbours
-      neighbours == 3 ||
-      // stay alive if cell has 2 neighbours
-      (input[i] && neighbours == 2)
-  ) {
+var life = function (input) {
+  var size = Math.sqrt(input.length),
+      i = size * size,
+      output = [i],
+      neightbours;
+
+  for (;i--;) {
     neighbours =
-      // count neighbours
       input[i-size-1] + input[i-size] + input[i-size+1] +
       input[i     -1] +                 input[i     +1] +
       input[i+size-1] + input[i+size] + input[i+size+1];
+    output[i] =
+      neighbours == 3 ||
+      (input[i] && neighbours == 2)
   }
 
   return output;
