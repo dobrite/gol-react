@@ -54,19 +54,45 @@ var Col = React.createClass({
 
 // https://gist.github.com/aemkei/1134658
 var life = function (input) {
-  var size = Math.sqrt(input.length),
-      i = size * size,
+  var len = input.length,
+      size = Math.sqrt(len),
+      i = len,
       output = [i],
-      neightbours;
+      neightbors;
+
+  var idx = function (loc, val) {
+    switch (loc) {
+      case 0:
+      case 1:
+      case 2:
+        return (val >= 0) ? val : val + len - size;
+      break;
+      case 3:
+        return (Math.floor((val+1)/size) === Math.floor(val/size)) ? val : val + (len - 1);
+      break;
+      case 5:
+        return val;
+      break;
+      case 6:
+        return val;
+      break;
+      case 7:
+        return val;
+      break;
+      case 8:
+        return val;
+      break;
+    }
+  };
 
   for (;i--;) {
-    neighbours =
-      input[i-size-1] + input[i-size] + input[i-size+1] +
-      input[i     -1] +                 input[i     +1] +
-      input[i+size-1] + input[i+size] + input[i+size+1];
+    neighbors =
+      input[idx(0, i-size-1)] + input[idx(1, i-size)] + input[idx(2, i-size+1)] +
+      input[idx(3, i     -1)] +                         input[idx(5, i     +1)] +
+      input[idx(6, i+size-1)] + input[idx(7, i+size)] + input[idx(8, i+size+1)];
     output[i] =
-      neighbours == 3 ||
-      (input[i] && neighbours == 2)
+      neighbors == 3 ||
+      (input[i] && neighbors == 2)
   }
 
   return output;
