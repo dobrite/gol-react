@@ -74,13 +74,9 @@ var life = function (input) {
         return val;
       break;
       case 6:
-        return val;
-      break;
       case 7:
-        return val;
-      break;
       case 8:
-        return val;
+      return (val < len) ? val : val - len + size;
       break;
     }
   };
