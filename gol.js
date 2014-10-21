@@ -71,7 +71,7 @@ var life = function (input) {
         return (Math.floor((val+1)/size) === Math.floor(val/size)) ? val : val + (len - 1);
       break;
       case 5:
-        return val;
+        return (Math.floor((val-1)/size) === Math.floor(val/size)) ? val : val - (len + 1);
       break;
       case 6:
       case 7:
