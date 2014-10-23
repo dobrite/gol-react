@@ -1,0 +1,21 @@
+{
+  "name": "gol-react",
+  "version": "0.0.1",
+  "description": "game of life with React",
+  "main": "gol.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dobrite/gol-react.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Dave O",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dobrite/gol-react/issues"
+  }
+}

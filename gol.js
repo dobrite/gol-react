@@ -52,6 +52,35 @@ var Col = React.createClass({
   }
 });
 
+var idx = function (loc, i, size, len) {
+  switch (loc) {
+    case 0:
+      val = val || i - size - 1;
+    case 1:
+      val = val || i - size;
+    case 2:
+      val = val || i - size + 1;
+      return (val >= 0) ? val : (val + i) + len - size;
+    break;
+    case 3:
+      val = val || i - 1;
+      return (Math.floor((val + 1) / size) === Math.floor(val / size)) ? val : val + size;
+    break;
+    case 5:
+      val = val || i + 1;
+      return (Math.floor((val - 1) / size) === Math.floor(val / size)) ? val : val - size;
+    break;
+    case 6:
+      val = val || i + size - 1;
+    case 7:
+      val = val || i + size;
+    case 8:
+      val = val || i + size + 1;
+      return (val < len) ? val : (val - i) - len + size;
+    break;
+  }
+};
+
 // https://gist.github.com/aemkei/1134658
 var life = function (input) {
   var len = input.length,
@@ -60,32 +89,11 @@ var life = function (input) {
       output = [i],
       neightbors;
 
-  var idx = function (loc, val) {
-    switch (loc) {
-      case 0:
-      case 1:
-      case 2:
-        return (val >= 0) ? val : (val + size + (loc - 1)) + len - size;;
-      break;
-      case 3:
-        return (Math.floor((val + 1) / size) === Math.floor(val / size)) ? val : val + size;
-      break;
-      case 5:
-        return (Math.floor((val - 1) / size) === Math.floor(val / size)) ? val : val - size;
-      break;
-      case 6:
-      case 7:
-      case 8:
-      return (val < len) ? val : (val - size + (loc - 7)) - len + size;
-      break;
-    }
-  };
-
   for (;i--;) {
     neighbors =
-      input[idx(0, i-size-1)] + input[idx(1, i-size)] + input[idx(2, i-size+1)] +
-      input[idx(3, i     -1)] +                         input[idx(5, i     +1)] +
-      input[idx(6, i+size-1)] + input[idx(7, i+size)] + input[idx(8, i+size+1)];
+      input[idx(0, i, size, len)] + input[idx(1, i, size, len)] + input[idx(2, i, size, len)] +
+      input[idx(3, i, size, len)] +                               input[idx(5, i, size, len)] +
+      input[idx(6, i, size, len)] + input[idx(7, i, size, len)] + input[idx(8, i, size, len)];
     output[i] =
       neighbors == 3 ||
       (input[i] && neighbors == 2)
