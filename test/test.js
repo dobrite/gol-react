@@ -1,23 +1,28 @@
 var assert = require("assert");
 
+var sameLine = function (v1, v2, size) {
+  return Math.floor(v1 / size) === Math.floor(v2 / size);
+};
+
 var idx = function (loc, i, size, len) {
   var top = function (val) {
-    console.log(val);
-    console.log(val +1);
-    console.log(len);
-    console.log(size);
     return (val >= 0) ? val : (val + i) + len;
   };
 
   var left = function (val) {
-    return (Math.floor((val + 1) / size) === Math.floor(val / size)) ? val : val + size;
+    return (sameLine(val + 1, val, size)) ? val : val + size;
   };
 
   var right = function (val) {
-    return (Math.floor((val - 1) / size) === Math.floor(val / size)) ? val : val - size;
+    return (sameLine(val - 1, val, size)) ? val : val - size;
   };
 
   var bottom = function (val) {
+    console.log(val);
+    console.log(i);
+    console.log(len);
+    console.log(size);
+    console.log(val - i - len + size);
     return (val < len) ? val : (val - i) - len + size;
   };
 
@@ -56,7 +61,7 @@ var life = function (input) {
       input[idx(6, i, size, len)] + input[idx(7, i, size, len)] + input[idx(8, i, size, len)];
     output[i] =
       neighbors == 3 ||
-      (input[i] && neighbors == 2)
+      (input[i] && neighbors == 2);
   }
 
   return output;
@@ -67,6 +72,15 @@ var testArray = [
   3, 4, 5,
   6, 7, 8,
 ];
+
+describe('same line', function () {
+  it('returns true when on same line', function () {
+    assert.equal(true, sameLine(0, 1, 3));
+  });
+  it('returns false when not on same line', function () {
+    assert.equal(false, sameLine(2, 3, 3));
+  });
+});
 
 describe('Test 3x3 Array', function () {
   describe('i = 0', function () {
@@ -96,7 +110,7 @@ describe('Test 3x3 Array', function () {
       });
     });
     describe('when loc is 6', function () {
-      it('returns 5', function () {
+      it.only('returns 5', function () {
         assert.equal(5, idx(6, 0, 3, 9));
       });
     });
