@@ -1340,4 +1340,196 @@ describe('Test 5x5 Array', function () {
       });
     });
   });
+  describe('i = 6', function () {
+    var i = 6;
+    describe('when loc is 0', function () {
+      it('', function () {
+        assert.equal(idx(0, i, size, len), 0);
+      });
+    });
+    describe('when loc is 1', function () {
+      it('', function () {
+        assert.equal(idx(1, i, size, len), 1);
+      });
+    });
+    describe('when loc is 2', function () {
+      it('', function () {
+        assert.equal(idx(2, i, size, len), 2);
+      });
+    });
+    describe('when loc is 3', function () {
+      it('', function () {
+        assert.equal(idx(3, i, size, len), 5);
+      });
+    });
+    describe('when loc is 4', function () {
+      it('', function () {
+        assert.equal(idx(4, i, size, len), 6);
+      });
+    });
+    describe('when loc is 5', function () {
+      it('', function () {
+        assert.equal(idx(5, i, size, len), 7);
+      });
+    });
+    describe('when loc is 6', function () {
+      it('', function () {
+        assert.equal(idx(6, i, size, len), 10);
+      });
+    });
+    describe('when loc is 7', function () {
+      it('', function () {
+        assert.equal(idx(7, i, size, len), 11);
+      });
+    });
+    describe('when loc is 8', function () {
+      it('', function () {
+        assert.equal(idx(8, i, size, len), 12);
+      });
+    });
+  });
+  describe('i = 8', function () {
+    var i = 8;
+    describe('when loc is 0', function () {
+      it('', function () {
+        assert.equal(idx(0, i, size, len), 2);
+      });
+    });
+    describe('when loc is 1', function () {
+      it('', function () {
+        assert.equal(idx(1, i, size, len), 3);
+      });
+    });
+    describe('when loc is 2', function () {
+      it('', function () {
+        assert.equal(idx(2, i, size, len), 4);
+      });
+    });
+    describe('when loc is 3', function () {
+      it('', function () {
+        assert.equal(idx(3, i, size, len), 7);
+      });
+    });
+    describe('when loc is 4', function () {
+      it('', function () {
+        assert.equal(idx(4, i, size, len), 8);
+      });
+    });
+    describe('when loc is 5', function () {
+      it('', function () {
+        assert.equal(idx(5, i, size, len), 9);
+      });
+    });
+    describe('when loc is 6', function () {
+      it('', function () {
+        assert.equal(idx(6, i, size, len), 12);
+      });
+    });
+    describe('when loc is 7', function () {
+      it('', function () {
+        assert.equal(idx(7, i, size, len), 13);
+      });
+    });
+    describe('when loc is 8', function () {
+      it('', function () {
+        assert.equal(idx(8, i, size, len), 14);
+      });
+    });
+  });
+  describe('i = 16', function () {
+    var i = 16;
+    describe('when loc is 0', function () {
+      it('', function () {
+        assert.equal(idx(0, i, size, len), 10);
+      });
+    });
+    describe('when loc is 1', function () {
+      it('', function () {
+        assert.equal(idx(1, i, size, len), 11);
+      });
+    });
+    describe('when loc is 2', function () {
+      it('', function () {
+        assert.equal(idx(2, i, size, len), 12);
+      });
+    });
+    describe('when loc is 3', function () {
+      it('', function () {
+        assert.equal(idx(3, i, size, len), 15);
+      });
+    });
+    describe('when loc is 4', function () {
+      it('', function () {
+        assert.equal(idx(4, i, size, len), 16);
+      });
+    });
+    describe('when loc is 5', function () {
+      it('', function () {
+        assert.equal(idx(5, i, size, len), 17);
+      });
+    });
+    describe('when loc is 6', function () {
+      it('', function () {
+        assert.equal(idx(6, i, size, len), 20);
+      });
+    });
+    describe('when loc is 7', function () {
+      it('', function () {
+        assert.equal(idx(7, i, size, len), 21);
+      });
+    });
+    describe('when loc is 8', function () {
+      it('', function () {
+        assert.equal(idx(8, i, size, len), 22);
+      });
+    });
+  });
+  describe('i = 18', function () {
+    var i = 18;
+    describe('when loc is 0', function () {
+      it('', function () {
+        assert.equal(idx(0, i, size, len), 12);
+      });
+    });
+    describe('when loc is 1', function () {
+      it('', function () {
+        assert.equal(idx(1, i, size, len), 13);
+      });
+    });
+    describe('when loc is 2', function () {
+      it('', function () {
+        assert.equal(idx(2, i, size, len), 14);
+      });
+    });
+    describe('when loc is 3', function () {
+      it('', function () {
+        assert.equal(idx(3, i, size, len), 17);
+      });
+    });
+    describe('when loc is 4', function () {
+      it('', function () {
+        assert.equal(idx(4, i, size, len), 18);
+      });
+    });
+    describe('when loc is 5', function () {
+      it('', function () {
+        assert.equal(idx(5, i, size, len), 19);
+      });
+    });
+    describe('when loc is 6', function () {
+      it('', function () {
+        assert.equal(idx(6, i, size, len), 22);
+      });
+    });
+    describe('when loc is 7', function () {
+      it('', function () {
+        assert.equal(idx(7, i, size, len), 23);
+      });
+    });
+    describe('when loc is 8', function () {
+      it('', function () {
+        assert.equal(idx(8, i, size, len), 24);
+      });
+    });
+  });
 });
