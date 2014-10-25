@@ -1,11 +1,11 @@
 #gol span {
   display: inline-block;
   height: 100%;
-  width: 30px;
+  width: 10px;
 }
 
 #gol .row {
-  height: 30px;
+  height: 10px;
 }
 
 .live {
