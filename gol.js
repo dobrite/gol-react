@@ -192,14 +192,6 @@ var Gol = React.createClass({
     };
   },
 
-  componentDidMount: function () {
-    this.interval = (function (that) {
-      setInterval(function () {
-        that.setState({array: that.tick()});
-      }, 100);
-    })(this);
-  },
-
   render: function () {
     var rows = this.state.array.map(function(row, i) {
       return (
@@ -215,8 +207,8 @@ var Gol = React.createClass({
         <div>
           <button
             type="button"
-            onClick={this.handleClickStart}>
-            start
+            onClick={this.handleClickStartStop}>
+            {this.getStartStopText()}
           </button>
         </div>
         <div>
@@ -226,9 +218,23 @@ var Gol = React.createClass({
     );
   },
 
-  //handleClickStart: function () {
-  //  this.setState({interval: setInterval(this.tick, 10)});
-  //},
+  handleClickStartStop: function () {
+    if (this.state.interval) {
+      clearInterval(this.state.interval);
+      this.setState({interval: null});
+    } else {
+      (function (that) {
+        var interval = setInterval(function () {
+          that.setState({array: that.tick()});
+        }, 100);
+        that.setState({interval: interval});
+      })(this);
+    }
+  },
+
+  getStartStopText: function () {
+    return (this.state.interval) ? 'stop' : 'start';
+  },
 
 });
 
