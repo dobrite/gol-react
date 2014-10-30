@@ -60,6 +60,25 @@ var golEngine = {
     }
   },
 
+  newSize: function (delta) {
+    var len = this.state.current.length,
+        size = Math.sqrt(len);
+
+    var newSize = size + delta;
+    var up = newSize > 0;
+    var newLen = Math.pow(newSize, 2);
+    var diff = (up) ?  newLen - len : diff = len - newLen;
+
+    if (diff < 0) {
+    }
+
+    if (diff > 0) {
+      var addElems = Array.apply(null, new Array(diff)).map(Number.prototype.valueOf,0);
+      this.state.current.push.apply(this.state.current, addElems);
+    }
+
+  },
+
   // https://gist.github.com/aemkei/1134658
   life: function (input) {
     var len = input.length,
@@ -220,6 +239,10 @@ var Gol = React.createClass({
             onClick={this.props.handleClickStartStop}>
             {this.getStartStopText()}
           </button>
+          <Controls
+            size={this.array.length}
+            handleNewSize={this.props.newSize}
+            handleClickStartStop={this.props.handleClickStartStop} />
         </div>
         <div>
           {rows}
@@ -272,6 +295,7 @@ var render = function (array) {
   React.renderComponent(
     <Gol
       array={array}
+      handleNewSize={golEngine.newSize.bind(golEngine)}
       handleClickStartStop={golEngine.startStop.bind(golEngine)} />,
     document.getElementById('gol')
   );
