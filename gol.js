@@ -84,41 +84,21 @@ var golEngine = {
     this.output();
   },
 
-  // https://gist.github.com/aemkei/1134658
-  //life: function (input) {
-  //  var len = input.length,
-  //      size = Math.sqrt(len),
-  //      i = len,
-  //      output = [i],
-  //      neighbors;
-
-  //  for (;i--;) {
-  //    neighbors =
-  //      input[this.idx(0, i, size, len)] + input[this.idx(1, i, size, len)] + input[this.idx(2, i, size, len)] +
-  //      input[this.idx(3, i, size, len)] +                                    input[this.idx(5, i, size, len)] +
-  //      input[this.idx(6, i, size, len)] + input[this.idx(7, i, size, len)] + input[this.idx(8, i, size, len)];
-  //    output[i] =
-  //      neighbors == 3 ||
-  //      (input[i] && neighbors == 2);
-  //  }
-
-  //  return output;
-  //},
-
+  // based on https://gist.github.com/aemkei/1134658
   life: function (input) {
     var len = input.length,
         size = Math.sqrt(len),
         output = [i],
         neighbors;
 
-    // use prev to count up starting from 1
-    this.state.current.reduce(function (_1, _2, i) {
+    this.state.current.reduce(function (i) {
       neighbors = this.state.range.reduce(function (prev, curr) {
         return prev + input[this.idx(curr, i, size, len)];
       }.bind(this), 0);
 
       output[i] = neighbors === 3 || (input[i] && neighbors === 2);
-    }.bind(this));
+      return i + 1;
+    }.bind(this), 0);
 
     return output;
   },
@@ -134,7 +114,7 @@ var golEngine = {
       case 3:
         return this.left(i - 1, size, len);
       case 4:
-        return i;
+        return this.identity(i, size, len);
       case 5:
         return this.right(i + 1, size, len);
       case 6:
@@ -144,6 +124,10 @@ var golEngine = {
       case 8:
         return this.bottom(i + size + 1, size, len);
     }
+  },
+
+  identity: function (val, size, len) {
+    return val;
   },
 
   top: function (val, size, len) {
