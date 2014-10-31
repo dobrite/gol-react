@@ -3,6 +3,7 @@
 var golEngine = {
   state: {
     interval: null,
+    range: [0, 1, 2, 3, 5, 6, 7, 8],
     current: [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -39,11 +40,11 @@ var golEngine = {
 
   registerRenderCallback: function (callback) {
     this.state.renderCallback = callback;
-    callback(this.output());
+    this.output();
   },
 
   output: function () {
-    return this.dtodd(this.state.current);
+    this.state.renderCallback(this.dtodd(this.state.current));
   },
 
   startStop: function () {
@@ -54,48 +55,70 @@ var golEngine = {
       (function (that) {
         that.state.interval = setInterval(function () {
           that.state.current = that.life(that.state.current);
-          that.state.renderCallback(that.output());
+          that.output();
         }, 10);
       })(this);
     }
   },
 
-  newSize: function (delta) {
+  newSize: function (delta, num, a,b,c) {
+    var append = function (arr, num) {
+      var newArr = Array.apply(null, new Array(num)),
+          zeroed = newArr.map(Number.prototype.valueOf, 0);
+
+      arr.splice.bind(arr, arr.length, 0).apply(arr, zeroed);
+    };
+
+    var remove = function (arr, num) {
+      arr.splice(arr.length - num, num);
+    };
+
     var len = this.state.current.length,
-        size = Math.sqrt(len);
+        size = Math.sqrt(len),
+        newSize = size + delta,
+        up = newSize > 0,
+        newLen = Math.pow(newSize, 2),
+        diff = (up) ?  newLen - len : len - newLen;
 
-    var newSize = size + delta;
-    var up = newSize > 0;
-    var newLen = Math.pow(newSize, 2);
-    var diff = (up) ?  newLen - len : diff = len - newLen;
-
-    if (diff < 0) {
-    }
-
-    if (diff > 0) {
-      var addElems = Array.apply(null, new Array(diff)).map(Number.prototype.valueOf,0);
-      this.state.current.push.apply(this.state.current, addElems);
-    }
-
+    ((diff > 0) ? append : remove)(this.state.current, diff);
+    this.output();
   },
 
   // https://gist.github.com/aemkei/1134658
+  //life: function (input) {
+  //  var len = input.length,
+  //      size = Math.sqrt(len),
+  //      i = len,
+  //      output = [i],
+  //      neighbors;
+
+  //  for (;i--;) {
+  //    neighbors =
+  //      input[this.idx(0, i, size, len)] + input[this.idx(1, i, size, len)] + input[this.idx(2, i, size, len)] +
+  //      input[this.idx(3, i, size, len)] +                                    input[this.idx(5, i, size, len)] +
+  //      input[this.idx(6, i, size, len)] + input[this.idx(7, i, size, len)] + input[this.idx(8, i, size, len)];
+  //    output[i] =
+  //      neighbors == 3 ||
+  //      (input[i] && neighbors == 2);
+  //  }
+
+  //  return output;
+  //},
+
   life: function (input) {
     var len = input.length,
         size = Math.sqrt(len),
-        i = len,
         output = [i],
         neighbors;
 
-    for (;i--;) {
-      neighbors =
-        input[this.idx(0, i, size, len)] + input[this.idx(1, i, size, len)] + input[this.idx(2, i, size, len)] +
-        input[this.idx(3, i, size, len)] +                                    input[this.idx(5, i, size, len)] +
-        input[this.idx(6, i, size, len)] + input[this.idx(7, i, size, len)] + input[this.idx(8, i, size, len)];
-      output[i] =
-        neighbors == 3 ||
-        (input[i] && neighbors == 2);
-    }
+    // use prev to count up starting from 1
+    this.state.current.reduce(function (_1, _2, i) {
+      neighbors = this.state.range.reduce(function (prev, curr) {
+        return prev + input[this.idx(curr, i, size, len)];
+      }.bind(this), 0);
+
+      output[i] = neighbors === 3 || (input[i] && neighbors === 2);
+    }.bind(this));
 
     return output;
   },
@@ -236,12 +259,12 @@ var Gol = React.createClass({
         <div>
           <button
             type="button"
-            onClick={this.props.handleClickStartStop}>
-            {this.getStartStopText()}
+            onClick={this.props.handleClickStartStop}
+            children={this.getStartStopText()}>
           </button>
           <Controls
-            size={this.array.length}
-            handleNewSize={this.props.newSize}
+            size={this.props.array.length}
+            handleNewSize={this.props.handleNewSize}
             handleClickStartStop={this.props.handleClickStartStop} />
         </div>
         <div>
@@ -254,6 +277,31 @@ var Gol = React.createClass({
   getStartStopText: function () {
     // TODO: fix this
     return 'start';
+  },
+
+});
+
+var Controls = React.createClass({
+
+  render: function () {
+    return (
+      <div>
+        <button
+          type="button"
+          onClick={this.handleNewSize}
+          value={1}
+          children={'+'}>
+        </button>
+        <span>
+          {this.props.size}
+        </span>
+      </div>
+    );
+  },
+
+  handleNewSize: function (e) {
+    var delta = parseInt(e.target.value, 10);
+    this.props.handleNewSize(delta);
   },
 
 });
