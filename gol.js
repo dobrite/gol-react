@@ -65,14 +65,14 @@ var golEngine = {
     return Array.apply(null, new Array(len)).map(Number.prototype.valueOf, 0);
   },
 
-  newSize: function (change, num, a,b,c) {
+  newSize: function (change) {
     var append = function (arr, num) {
       arr.splice.bind(arr, arr.length, 0).apply(arr, this.zeroed(num));
-    };
+    }.bind(this);
 
     var remove = function (arr, num) {
-      arr.splice(arr.length - num, num);
-    };
+      arr.splice(arr.length + num, Math.abs(num));
+    }.bind(this);
 
     var len = this.state.current.length,
         size = Math.sqrt(len),
@@ -82,6 +82,12 @@ var golEngine = {
         diff = (up) ?  newLen - len : len - newLen;
 
     ((diff > 0) ? append : remove)(this.state.current, diff);
+    this.output();
+  },
+
+  switchState: function (row, col) {
+    var index = Math.sqrt(this.state.current.length) * row + col;
+    this.state.current[index] = +!!!this.state.current[index];
     this.output();
   },
 
@@ -228,15 +234,17 @@ var golEngine = {
 var Gol = React.createClass({
 
   render: function () {
-    var rows = this.props.array.map(function(row, i) {
+    var rows = this.props.array.map(function(row, rowNum) {
       return (
         <Row
-          key={'r' + i.toString()}
-          rowNumber={i}
-          row={row} />
+          key={'r' + rowNum.toString()}
+          row={row}
+          rowNum={rowNum}
+          handleSwitchState={this.props.handleSwitchState} />
       );
-    });
+    }.bind(this));
 
+    // TODO: put this button in Controls
     return (
       <div>
         <div>
@@ -264,6 +272,57 @@ var Gol = React.createClass({
 
 });
 
+var Row = React.createClass({
+  render: function () {
+    var cols = this.props.row.map(function(col, colNum) {
+      return (
+        <Col
+          key={'c' + colNum.toString()}
+          col={col}
+          colNum={colNum}
+          rowNum={this.props.rowNum}
+          handleSwitchState={this.props.handleSwitchState} />
+      );
+    }.bind(this));
+
+    return (
+      <div className='row'>
+        {cols}
+      </div>
+    );
+  }
+});
+
+var Col = React.createClass({
+  render: function () {
+    return (
+      <span
+        onClick={this.handleSwitchState}
+        className={this.getClassName()}
+        children='&nbsp;'/>
+    );
+  },
+
+  handleSwitchState: function (e) {
+    this.props.handleSwitchState(this.props.rowNum, this.props.colNum);
+  },
+
+  getClassName: function () {
+    return (this.props.col) ? "live" : "dead";
+  }
+});
+
+var render = function (array) {
+  React.renderComponent(
+    <Gol
+      array={array}
+      handleNewSize={golEngine.newSize.bind(golEngine)}
+      handleClickStartStop={golEngine.startStop.bind(golEngine)}
+      handleSwitchState={golEngine.switchState.bind(golEngine)} />,
+    document.getElementById('gol')
+  );
+};
+
 var Controls = React.createClass({
 
   render: function () {
@@ -274,6 +333,12 @@ var Controls = React.createClass({
           onClick={this.handleNewSize}
           value={1}
           children={'+'}>
+        </button>
+        <button
+          type="button"
+          onClick={this.handleNewSize}
+          value={-1}
+          children={'-'}>
         </button>
         <span>
           {this.props.size}
@@ -288,48 +353,5 @@ var Controls = React.createClass({
   },
 
 });
-
-var Row = React.createClass({
-  render: function () {
-    var cols = this.props.row.map(function(col, i) {
-      return (
-        <Col
-          key={'c' + i.toString()}
-          colNumber={i}
-          col={col} />
-      );
-    });
-
-    return (
-      <div className='row'>
-        {cols}
-      </div>
-    );
-  }
-});
-
-var Col = React.createClass({
-  render: function () {
-    return (
-      <span
-        className={this.getClassName()}
-        children='&nbsp;'/>
-    );
-  },
-
-  getClassName: function () {
-    return (this.props.col) ? "live" : "dead";
-  }
-});
-
-var render = function (array) {
-  React.renderComponent(
-    <Gol
-      array={array}
-      handleNewSize={golEngine.newSize.bind(golEngine)}
-      handleClickStartStop={golEngine.startStop.bind(golEngine)} />,
-    document.getElementById('gol')
-  );
-};
 
 golEngine.registerRenderCallback(render);
