@@ -42,13 +42,18 @@ var golEngine = {
   },
 
   output: function () {
-    this.state.renderCallback(this.dtodd(this.state.current));
+    data = {
+      array: this.dtodd(this.state.current),
+      startStop: !!this.state.interval,
+    };
+    this.state.renderCallback(data);
   },
 
   startStop: function () {
     if (this.state.interval) {
       clearInterval(this.state.interval);
       this.state.interval = null;
+      this.output();
     } else {
       (function (_this) {
         _this.state.interval = setInterval(function () {

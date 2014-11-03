@@ -16,27 +16,16 @@ var Gol = React.createClass({
     // TODO: put this button in Controls
     return (
       <div>
-        <div>
-          <button
-            type="button"
-            onClick={this.props.handleClickStartStop}
-            children={this.getStartStopText()}>
-          </button>
-          <Controls
-            size={this.props.array.length}
-            handleNewSize={this.props.handleNewSize}
-            handleClickStartStop={this.props.handleClickStartStop} />
-        </div>
+        <Controls
+          size={this.props.array.length}
+          startStop={this.props.startStop}
+          handleNewSize={this.props.handleNewSize}
+          handleClickStartStop={this.props.handleClickStartStop} />
         <div>
           {rows}
         </div>
       </div>
     );
-  },
-
-  getStartStopText: function () {
-    // TODO: fix this
-    return 'start';
   },
 });
 
@@ -58,7 +47,7 @@ var Row = React.createClass({
         {cols}
       </div>
     );
-  }
+  },
 });
 
 var Col = React.createClass({
@@ -77,13 +66,18 @@ var Col = React.createClass({
 
   getClassName: function () {
     return (this.props.col) ? "live" : "dead";
-  }
+  },
 });
 
 var Controls = React.createClass({
   render: function () {
     return (
       <div>
+        <button
+          type="button"
+          onClick={this.props.handleClickStartStop}
+          children={this.getStartStopText()}>
+        </button>
         <button
           type="button"
           onClick={this.handleNewSize}
@@ -103,16 +97,21 @@ var Controls = React.createClass({
     );
   },
 
+  getStartStopText: function () {
+    return (this.props.startStop) ? 'stop' : 'start'
+  },
+
   handleNewSize: function (e) {
     var delta = parseInt(e.target.value, 10);
     this.props.handleNewSize(delta);
   },
 });
 
-var render = function (array) {
+var render = function (data) {
   React.render(
     <Gol
-      array={array}
+      array={data.array}
+      startStop={data.startStop}
       handleNewSize={golEngine.newSize.bind(golEngine)}
       handleClickStartStop={golEngine.startStop.bind(golEngine)}
       handleSwitchState={golEngine.switchState.bind(golEngine)} />,
