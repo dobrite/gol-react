@@ -313,7 +313,7 @@ var Col = React.createClass({
 });
 
 var render = function (array) {
-  React.renderComponent(
+  React.render(
     <Gol
       array={array}
       handleNewSize={golEngine.newSize.bind(golEngine)}
