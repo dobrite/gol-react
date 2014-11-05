@@ -13,7 +13,6 @@ var Gol = React.createClass({
       );
     }.bind(this));
 
-    // TODO: put this button in Controls
     return (
       <div>
         <Controls
