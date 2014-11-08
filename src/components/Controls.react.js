@@ -8,7 +8,7 @@ var Controls = React.createClass({
         <button
           type="button"
           onClick={GolActionCreators.toggleStart}
-          children={this.getStartStopText()}>
+          children={this.renderStartStopText()}>
         </button>
         <button
           type="button"
@@ -29,13 +29,13 @@ var Controls = React.createClass({
     );
   },
 
-  getStartStopText: function () {
+  renderStartStopText: function () {
     return (this.props.startStop) ? 'stop' : 'start'
   },
 
   handleNewSize: function (e) {
     var delta = parseInt(e.target.value, 10);
-    this.props.handleNewSize(delta);
+    GolActionCreators.newSize(delta)
   },
 
 });

@@ -49,21 +49,6 @@ var golEngine = {
     this.state.renderCallback(data);
   },
 
-  startStop: function () {
-    if (this.state.interval) {
-      clearInterval(this.state.interval);
-      this.state.interval = null;
-      this.output();
-    } else {
-      (function (_this) {
-        _this.state.interval = setInterval(function () {
-          _this.state.current = _this.life(_this.state.current);
-          _this.output();
-        }, 25);
-      })(this);
-    }
-  },
-
   zeroed: function (len) {
     return Array.apply(null, new Array(len)).map(Number.prototype.valueOf, 0);
   },

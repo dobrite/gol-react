@@ -1,17 +1,18 @@
 var React = require('react/addons');
-var golEngine = require('./golEngine');
 var Gol = require('./components/Gol.react');
+var GolStore = require('./stores/GolStore');
 
-var render = function (data) {
+var render = function () {
+  var data = GolStore.get();
+
   React.render(
     <Gol
-      array={GolStore.get()}
-      startStop={data.startStop}
-      handleNewSize={golEngine.newSize.bind(golEngine)}
-      handleClickStartStop={golEngine.startStop.bind(golEngine)}
-      handleSwitchState={golEngine.switchState.bind(golEngine)} />,
+      array={data.array}
+      startStop={data.startStop} />,
     document.getElementById('gol')
   );
 };
 
-golEngine.registerRenderCallback(render);
+GolStore.addChangeListener(render);
+
+render();

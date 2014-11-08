@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var Col = require('./Col.react');
 
 var Row = React.createClass({
   render: function () {
@@ -8,8 +9,7 @@ var Row = React.createClass({
           key={'c' + colNum.toString()}
           col={col}
           colNum={colNum}
-          rowNum={this.props.rowNum}
-          handleSwitchState={this.props.handleSwitchState} />
+          rowNum={this.props.rowNum} />
       );
     }.bind(this));
 
