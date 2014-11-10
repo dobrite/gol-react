@@ -66,10 +66,15 @@ var newSize = function (change) {
   var len = current.length,
       size = Math.sqrt(len),
       newSize = size + change,
-      up = newSize > 0,
+      isUp = newSize > 0,
       newLen = Math.pow(newSize, 2),
-      diff = (up) ?  newLen - len : len - newLen;
+      diff = (isUp) ?  newLen - len : len - newLen;
 
+  // 2x2
+  // var arr = [1,1,1,1];
+  // back to front
+  // arr.splice(4, 0, 0, 0, 0, 0); // first go around gets old size + 1 new elements
+  // arr.splice(2, 0, 0); // next and rest get a new elem at (i * size)
   ((diff > 0) ? append : remove)(current, diff);
 };
 
