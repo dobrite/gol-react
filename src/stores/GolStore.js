@@ -71,15 +71,12 @@ var newSize = function (change) {
       diff = (isUp) ?  newLen - len : len - newLen;
 
   rightEdges = range(len).filter(function(elem){
-    console.log(len % elem, elem % len);
-    if (size % elem === 0 && elem !== 0) {
+    if (elem % size === 0) {
       return true;
     }
   }).reverse();
 
   append(current, size + 1);
-
-  console.log(rightEdges);
 
   rightEdges.map(function(cur, idx) {
     current.splice(cur, 0, 0);
