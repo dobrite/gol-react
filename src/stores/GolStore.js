@@ -70,12 +70,29 @@ var newSize = function (change) {
       newLen = Math.pow(newSize, 2),
       diff = (isUp) ?  newLen - len : len - newLen;
 
+  rightEdges = range(len).filter(function(elem){
+    console.log(len % elem, elem % len);
+    if (size % elem === 0 && elem !== 0) {
+      return true;
+    }
+  }).reverse();
+
+  append(current, size + 1);
+
+  console.log(rightEdges);
+
+  rightEdges.map(function(cur, idx) {
+    current.splice(cur, 0, 0);
+  });
+
   // 2x2
   // var arr = [1,1,1,1];
   // back to front
   // arr.splice(4, 0, 0, 0, 0, 0); // first go around gets old size + 1 new elements
   // arr.splice(2, 0, 0); // next and rest get a new elem at (i * size)
-  ((diff > 0) ? append : remove)(current, diff);
+      //((diff > 0) ? append : remove)(current, diff);
+      //
+
 };
 
 var switchState = function (row, col) {
@@ -85,6 +102,12 @@ var switchState = function (row, col) {
 
 var zeroed = function (len) {
   return Array.apply(null, new Array(len)).map(Number.prototype.valueOf, 0);
+};
+
+var range = function (len) {
+  return Array.apply(null, new Array(len)).map(function(cur, idx) {
+    return idx;
+  });
 };
 
 // derived from https://gist.github.com/aemkei/1134658
