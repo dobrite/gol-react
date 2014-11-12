@@ -55,14 +55,6 @@ var toggleStart = function () {
 };
 
 var newSize = function (change) {
-  var append = function (arr, num) {
-    arr.splice.bind(arr, arr.length, 0).apply(arr, zeroed(num));
-  };
-
-  var remove = function (arr, num) {
-    arr.splice(arr.length + num, Math.abs(num));
-  };
-
   var len = current.length,
       size = Math.sqrt(len),
       newSize = size + change,
@@ -70,20 +62,28 @@ var newSize = function (change) {
       newLen = Math.pow(newSize, 2),
       diff = (isUp) ?  newLen - len : len - newLen;
 
-  rightEdges = range(len).filter(function(elem){
-    if (elem % size === 0) {
-      return true;
-    }
-  }).reverse();
+  var append = function (arr, num) {
+    return arr.splice.bind(arr, arr.length, 0).apply(arr, zeroed(num));
+  };
 
-  append(current, size + 1);
+  var remove = function (arr, num) {
+    return arr.splice(arr.length - num, num);
+  };
 
-  rightEdges.map(function(cur, idx) {
-    current.splice(cur, 0, 0);
-  });
+  var increase = function () {
+    var rightEdges = range(len).filter(function(elem){
+      return elem % size === 0;
+    }).reverse();
 
-  // 2x2
-  // var arr = [1,1,1,1];
+    current = append(current, size + 1);
+
+    rightEdges.map(function(cur, idx) {
+      current.splice(cur, 0, 0);
+    });
+  };
+
+  // 3x3
+  // var arr = [1,1,1,1,1,1,1,1,1];
   // back to front
   // arr.splice(4, 0, 0, 0, 0, 0); // first go around gets old size + 1 new elements
   // arr.splice(2, 0, 0); // next and rest get a new elem at (i * size)
