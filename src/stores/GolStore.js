@@ -9,7 +9,6 @@ var CHANGE_EVENT = 'change';
 
 var started = false,
     interval = null,
-    range = [0, 1, 2, 3, 4, 5, 6, 7, 8],
     current = [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -55,41 +54,46 @@ var toggleStart = function () {
 };
 
 var newSize = function (change) {
+  console.log(change);
   var len = current.length,
       size = Math.sqrt(len),
-      newSize = size + change,
-      isUp = newSize > 0,
-      newLen = Math.pow(newSize, 2),
-      diff = (isUp) ?  newLen - len : len - newLen;
+      isUp = change > 0;
 
   var append = function (arr, num) {
-    return arr.splice.bind(arr, arr.length, 0).apply(arr, zeroed(num));
+    arr.splice.bind(arr, arr.length, 0).apply(arr, zeroed(num));
   };
 
   var remove = function (arr, num) {
-    return arr.splice(arr.length - num, num);
+    arr.splice(arr.length - num, num);
+  };
+
+  var getRightEdges = function (arr) {
+    return range(arr.length).filter(function(elem){
+      return elem % size === 0;
+    });
   };
 
   var increase = function () {
-    var rightEdges = range(len).filter(function(elem){
-      return elem % size === 0;
-    }).reverse();
+    var rightEdges = getRightEdges(current);
 
-    current = append(current, size + 1);
+    append(current, size + 1);
 
-    rightEdges.map(function(cur, idx) {
+    rightEdges.reverse().map(function(cur, idx) {
       current.splice(cur, 0, 0);
     });
   };
 
-  // 3x3
-  // var arr = [1,1,1,1,1,1,1,1,1];
-  // back to front
-  // arr.splice(4, 0, 0, 0, 0, 0); // first go around gets old size + 1 new elements
-  // arr.splice(2, 0, 0); // next and rest get a new elem at (i * size)
-      //((diff > 0) ? append : remove)(current, diff);
-      //
+  var decrease = function () {
+    var rightEdges = getRightEdges(current);
 
+    remove(current, size);
+
+    rightEdges.reverse().map(function(cur, idx) {
+      current.splice(cur, 1);
+    });
+  };
+
+  return (isUp) ? increase() : decrease();
 };
 
 var switchState = function (row, col) {
@@ -115,7 +119,7 @@ var life = function (input) {
       neighbors;
 
   return output.map(function (c, i) {
-    neighbors = range.reduce(function (prev, curr) {
+    neighbors = range(9).reduce(function (prev, curr) {
       return prev + input[idx(curr, i, size, len)];
     }, 0);
     return (neighbors === 3 || (neighbors === 4 && input[i])) ? 1 : 0;
