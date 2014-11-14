@@ -54,7 +54,6 @@ var toggleStart = function () {
 };
 
 var newSize = function (change) {
-  console.log(change);
   var len = current.length,
       size = Math.sqrt(len),
       isUp = change > 0;
