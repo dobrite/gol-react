@@ -4,6 +4,7 @@ GOL in React
 One terminal
 ------------
 
+    npm install
     npm run start
 
 Another terminal
