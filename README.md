@@ -1,5 +1,5 @@
-GOL in React
-============
+GOL in React/Flux
+=================
 
 One terminal
 ------------
