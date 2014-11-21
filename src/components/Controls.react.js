@@ -1,8 +1,8 @@
-var React = require('react/addons');
-var GolActionCreators = require('../actions/GolActionCreators');
+var React             = require('react/addons'),
+    GolActionCreators = require('../actions/GolActionCreators');
 
 var Controls = React.createClass({
-  render: function () {
+  render() {
     return (
       <div>
         <button
@@ -29,15 +29,13 @@ var Controls = React.createClass({
     );
   },
 
-  renderStartStopText: function () {
+  renderStartStopText() {
     return (this.props.startStop) ? 'stop' : 'start'
   },
 
-  handleNewSize: function (e) {
-    var delta = parseInt(e.target.value, 10);
-    GolActionCreators.newSize(delta)
+  handleNewSize(e) {
+    GolActionCreators.newSize(parseInt(e.target.value, 10))
   },
-
 });
 
 module.exports = Controls;

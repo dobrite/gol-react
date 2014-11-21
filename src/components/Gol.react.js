@@ -1,18 +1,15 @@
-var React = require('react/addons');
-var Row = require('./Row.react');
-var Controls = require('./Controls.react');
+var React    = require('react/addons'),
+    Row      = require('./Row.react'),
+    Controls = require('./Controls.react');
 
 var Gol = React.createClass({
-
-  render: function () {
-    var rows = this.props.array.map(function(row, rowNum) {
-      return (
-        <Row
-          key={'r' + rowNum.toString()}
-          row={row}
-          rowNum={rowNum} />
-      );
-    }.bind(this));
+  render() {
+    var rows = this.props.array.map((row, rowNum) =>
+      <Row
+        key={'r' + rowNum.toString()}
+        row={row}
+        rowNum={rowNum} />
+    );
 
     return (
       <div>
@@ -25,7 +22,6 @@ var Gol = React.createClass({
       </div>
     );
   },
-
 });
 
 module.exports = Gol;

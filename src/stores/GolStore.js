@@ -1,13 +1,12 @@
-var GolDispatcher = require('../dispatcher/GolDispatcher');
-var GolConstants  = require('../constants/GolConstants');
-var GolActionCreators = require('../actions/GolActionCreators');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+var GolDispatcher     = require('../dispatcher/GolDispatcher'),
+    GolConstants      = require('../constants/GolConstants'),
+    GolActionCreators = require('../actions/GolActionCreators'),
+    EventEmitter      = require('events').EventEmitter,
+    assign            = require('object-assign');
 
-var ActionTypes = GolConstants.ActionTypes;
-var CHANGE_EVENT = 'change';
-
-var started = false,
+var ActionTypes = GolConstants.ActionTypes,
+    CHANGE_EVENT = 'change',
+    started = false,
     interval = null,
     current = [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -42,90 +41,79 @@ var started = false,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ];
 
-var toggleStart = function () {
+var toggleStart = () => {
   if (interval) {
-    clearInterval(interval);
-    interval = null;
+    clearInterval(interval) || (interval = null)
   } else {
-    interval = setInterval(function () {
-      GolActionCreators.tick();
-    }, 25);
+    interval = setInterval(
+      () => GolActionCreators.tick()
+    , 25);
   }
 };
 
-var newSize = function (change) {
+var newSize = (change) => {
   var len = current.length,
       size = Math.sqrt(len),
       isUp = change > 0;
 
-  var append = function (arr, num) {
+  var append = (arr, num) => {
     arr.splice.bind(arr, arr.length, 0).apply(arr, zeroed(num));
   };
 
-  var remove = function (arr, num) {
-    arr.splice(arr.length - num, num);
-  };
+  var remove = (arr, num) => arr.splice(arr.length - num, num);
 
-  var getRightEdges = function (arr) {
-    return range(arr.length).filter(function(elem){
-      return elem % size === 0;
-    });
-  };
+  var getRightEdges = (arr) =>
+    range(arr.length).filter((elem) =>
+      elem % size === 0
+    );
 
-  var increase = function () {
+  var increase = () => {
     var rightEdges = getRightEdges(current);
 
     append(current, size + 1);
 
-    rightEdges.reverse().map(function(cur, idx) {
-      current.splice(cur, 0, 0);
+    rightEdges.reverse().map((cur, idx) => {
+      current.splice(cur, 0, 0)
     });
   };
 
-  var decrease = function () {
+  var decrease = () => {
     var rightEdges = getRightEdges(current);
 
     remove(current, size);
 
-    rightEdges.reverse().map(function(cur, idx) {
-      current.splice(cur, 1);
-    });
+    rightEdges.reverse().map((cur, idx) =>
+      current.splice(cur, 1)
+    );
   };
 
   return (isUp) ? increase() : decrease();
 };
 
-var switchState = function (row, col) {
+var switchState = (row, col) => {
   var index = Math.sqrt(current.length) * row + col;
   current[index] = +!!!current[index];
 };
 
-var zeroed = function (len) {
-  return Array.apply(null, new Array(len)).map(Number.prototype.valueOf, 0);
-};
-
-var range = function (len) {
-  return Array.apply(null, new Array(len)).map(function(cur, idx) {
-    return idx;
-  });
-};
+var zeroed = (len) => Array.apply(null, new Array(len)).map(Number.prototype.valueOf, 0);
+var range  = (len) => Array.apply(null, new Array(len)).map((cur, idx) => idx);
 
 // derived from https://gist.github.com/aemkei/1134658
-var life = function (input) {
+var life = (input) => {
   var len = input.length,
       size = Math.sqrt(len),
       output = zeroed(len),
       neighbors;
 
-  return output.map(function (c, i) {
-    neighbors = range(9).reduce(function (prev, curr) {
-      return prev + input[idx(curr, i, size, len)];
-    }, 0);
+  return output.map((c, i) => {
+    neighbors = range(9).reduce((prev, curr) =>
+      prev + input[idx(curr, i, size, len)]
+    , 0);
     return (neighbors === 3 || (neighbors === 4 && input[i])) ? 1 : 0;
   });
 };
 
-var idx = function (loc, i, size, len) {
+var idx = (loc, i, size, len) => {
   // if i is left top corner
   if (i === 0) {
     if (loc === 0) return len - 1; //
@@ -190,29 +178,12 @@ var idx = function (loc, i, size, len) {
     if (loc === 8) return i - len + size + 1;
   }
 
-  var isSameLine = function (v1, v2, size) {
-    return Math.floor(v1 / size) === Math.floor(v2 / size);
-  };
-
-  var identity = function (val) {
-    return val;
-  };
-
-  var top = function (val) {
-    return (val >= 0) ? val : (val + i) + len;
-  };
-
-  var left = function (val) {
-    return (isSameLine(val + 1, val, size)) ? val : val + size;
-  };
-
-  var right = function (val) {
-    return (isSameLine(val - 1, val, size)) ? val : val - size;
-  };
-
-  var bottom = function (val) {
-    return (val < len) ? val : (val - i) - len + size;
-  };
+  var isSameLine = (v1, v2, size) => Math.floor(v1 / size) === Math.floor(v2 / size);
+  var identity = (val) => val;
+  var top = (val) => (val >= 0) ? val : (val + i) + len;
+  var left = (val) => (isSameLine(val + 1, val, size)) ? val : val + size;
+  var right = (val) => (isSameLine(val - 1, val, size)) ? val : val - size;
+  var bottom = (val) => (val < len) ? val : (val - i) - len + size;
 
   switch (loc) {
     case 0:
@@ -236,12 +207,12 @@ var idx = function (loc, i, size, len) {
   }
 };
 
-var dtodd = function (arr) {
+var dtodd = (arr) => {
   var l = arr.length,
       d = Math.sqrt(l),
       n = [];
 
-  for (i = 0; i < d; i++) {
+  for (var i = 0; i < d; i++) {
     n[i] = arr.slice(i * d, (i + 1) * d);
   }
 
@@ -249,25 +220,23 @@ var dtodd = function (arr) {
 };
 
 var GolStore = assign({}, EventEmitter.prototype, {
-
-  emitChange: function () {
-    this.emit(CHANGE_EVENT);
+  emitChange() {
+    this.emit(CHANGE_EVENT)
   },
 
-  addChangeListener: function (callback) {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  get: function(id) {
+  get(id) {
     return {
       array: dtodd(current),
       startStop: !!interval,
     };
   },
-
 });
 
-GolStore.dispatchToken = GolDispatcher.register(function(payload) {
+GolStore.dispatchToken = GolDispatcher.register((payload) => {
   var action = payload.action;
 
   switch(action.type) {
@@ -288,14 +257,13 @@ GolStore.dispatchToken = GolDispatcher.register(function(payload) {
       switchState(action.data.row, action.data.col);
       break;
 
-      default:
-        // nothing
+    default:
+      // nothing
   }
 
   GolStore.emitChange();
 
   return true;
-
 });
 
 module.exports = GolStore;

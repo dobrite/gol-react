@@ -1,20 +1,16 @@
-var GolConstants = require('../constants/GolConstants');
-var Dispatcher = require('flux').Dispatcher;
-var assign = require('object-assign');
+var GolConstants = require('../constants/GolConstants'),
+    Dispatcher   = require('flux').Dispatcher,
+    assign       = require('object-assign');
 
 var PayloadSources = GolConstants.PayloadSources;
 
 var GolDispatcher = assign(new Dispatcher(), {
-
-  handleViewAction: function (action) {
-    var payload = {
+  handleViewAction(action) {
+    this.dispatch({
       source: PayloadSources.VIEW_ACTION,
-      action: action
-    };
-
-    this.dispatch(payload);
+      action
+    });
   }
-
 });
 
 module.exports = GolDispatcher;

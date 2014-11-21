@@ -1,5 +1,5 @@
-var React = require('react/addons');
-var Col = require('./Col.react');
+var React = require('react/addons'),
+    Col = require('./Col.react');
 
 var Row = React.createClass({
   render: function () {
