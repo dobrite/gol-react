@@ -1,7 +1,13 @@
 var React             = require('react/addons'),
-    GolActionCreators = require('../actions/GolActionCreators');
+    GolActionCreators = require('../actions/GolActionCreators'),
+    { PropTypes }     = React;
 
 var Controls = React.createClass({
+  propTypes: {
+    size:      PropTypes.number.isRequired,
+    startStop: PropTypes.bool.isRequired,
+  },
+
   render() {
     return (
       <div>

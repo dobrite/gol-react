@@ -1,7 +1,14 @@
 var React             = require('react/addons'),
-    GolActionCreators = require('../actions/GolActionCreators');
+    GolActionCreators = require('../actions/GolActionCreators'),
+    { PropTypes }     = React;
 
 var Col = React.createClass({
+  propTypes: {
+    col:    PropTypes.number.isRequired,
+    colNum: PropTypes.number.isRequired,
+    rowNum: PropTypes.number.isRequired,
+  },
+
   render() {
     return (
       <span

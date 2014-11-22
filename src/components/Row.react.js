@@ -1,17 +1,21 @@
-var React = require('react/addons'),
-    Col = require('./Col.react');
+var React         = require('react/addons'),
+    Col           = require('./Col.react'),
+    { PropTypes } = React;
 
 var Row = React.createClass({
-  render: function () {
-    var cols = this.props.row.map(function(col, colNum) {
-      return (
+  propTypes: {
+    row:    PropTypes.array.isRequired,
+    rowNum: PropTypes.number.isRequired,
+  },
+
+  render() {
+    var cols = this.props.row.map((col, colNum) =>
         <Col
           key={'c' + colNum.toString()}
           col={col}
           colNum={colNum}
           rowNum={this.props.rowNum} />
-      );
-    }.bind(this));
+    );
 
     return (
       <div className='row'>
