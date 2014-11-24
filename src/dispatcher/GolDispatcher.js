@@ -1,5 +1,5 @@
-var GolConstants = require('../constants/GolConstants'),
-    Dispatcher   = require('flux').Dispatcher,
+import GolConstants from '../constants/GolConstants';
+var Dispatcher   = require('flux').Dispatcher,
     assign       = require('object-assign');
 
 var PayloadSources = GolConstants.PayloadSources;
@@ -13,4 +13,4 @@ var GolDispatcher = assign(new Dispatcher(), {
   }
 });
 
-module.exports = GolDispatcher;
+export default GolDispatcher;

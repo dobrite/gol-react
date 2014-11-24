@@ -1,5 +1,5 @@
-var GolDispatcher = require('../dispatcher/GolDispatcher'),
-    GolConstants = require('../constants/GolConstants');
+import GolDispatcher from '../dispatcher/GolDispatcher';
+import GolConstants  from '../constants/GolConstants';
 
 var ActionTypes = GolConstants.ActionTypes;
 

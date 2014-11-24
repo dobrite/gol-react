@@ -1,6 +1,6 @@
 var keyMirror = require('react/lib/keyMirror');
 
-module.exports = {
+export default = {
   ActionTypes: keyMirror({
     GOL_TICK: null,
     GOL_TOGGLE_START: null,

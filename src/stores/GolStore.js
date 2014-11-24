@@ -1,6 +1,6 @@
-var GolDispatcher     = require('../dispatcher/GolDispatcher'),
-    GolConstants      = require('../constants/GolConstants'),
-    GolActionCreators = require('../actions/GolActionCreators'),
+import GolDispatcher from '../dispatcher/GolDispatcher';
+import GolConstants  from '../constants/GolConstants';
+var GolActionCreators = require('../actions/GolActionCreators'),
     EventEmitter      = require('events').EventEmitter,
     assign            = require('object-assign');
 
@@ -266,4 +266,4 @@ GolStore.dispatchToken = GolDispatcher.register((payload) => {
   return true;
 });
 
-module.exports = GolStore;
+export default GolStore;

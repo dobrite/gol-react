@@ -1,8 +1,8 @@
 "use strict";
 
-var React    = require('react/addons');
-var Gol      = require('./components/Gol.react');
-var GolStore = require('./stores/GolStore');
+module React    from 'react/addons';
+import Gol      from './components/Gol.react';
+import GolStore from './stores/GolStore';
 
 var render = () => {
   var data = GolStore.get();

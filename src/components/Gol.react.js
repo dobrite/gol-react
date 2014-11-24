@@ -30,4 +30,4 @@ var Gol = React.createClass({
   },
 });
 
-module.exports = Gol;
+export default Gol;
