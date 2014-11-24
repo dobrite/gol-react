@@ -1,6 +1,6 @@
-var React         = require('react/addons'),
-    Col           = require('./Col.react'),
-    { PropTypes } = React;
+module React from 'react/addons';
+import Col   from './Col.react';
+var { PropTypes } = React;
 
 var Row = React.createClass({
   propTypes: {
@@ -25,4 +25,4 @@ var Row = React.createClass({
   },
 });
 
-module.exports = Row;
+export default Row;

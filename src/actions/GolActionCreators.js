@@ -3,7 +3,7 @@ import GolConstants  from '../constants/GolConstants';
 
 var ActionTypes = GolConstants.ActionTypes;
 
-module.exports = {
+export default = {
   tick() {
     GolDispatcher.handleViewAction({
       type: ActionTypes.GOL_TICK,

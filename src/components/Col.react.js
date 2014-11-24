@@ -1,6 +1,6 @@
-var React             = require('react/addons'),
-    GolActionCreators = require('../actions/GolActionCreators'),
-    { PropTypes }     = React;
+module React from 'react/addons';
+import GolActionCreators from '../actions/GolActionCreators';
+var PropTypes = React.PropTypes;
 
 var Col = React.createClass({
   propTypes: {
@@ -30,4 +30,4 @@ var Col = React.createClass({
   },
 });
 
-module.exports = Col;
+export default Col;

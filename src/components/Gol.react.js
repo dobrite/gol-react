@@ -1,7 +1,7 @@
-var React         = require('react/addons'),
-    Row           = require('./Row.react'),
-    Controls      = require('./Controls.react'),
-    { PropTypes } = React;
+module React    from 'react/addons';
+import Row      from './Row.react';
+import Controls from './Controls.react';
+var { PropTypes } = React;
 
 var Gol = React.createClass({
   propTypes: {
