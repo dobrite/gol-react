@@ -41,25 +41,20 @@ var ActionTypes = GolConstants.ActionTypes,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ];
 
-var toggleStart = () => {
-  if (interval) {
+var toggleStart = () =>
+  (interval) ?
     clearInterval(interval) || (interval = null)
-  } else {
+  :
     interval = setInterval(
       () => GolActionCreators.tick()
-    , 25);
-  }
-};
+    , 25)
 
 var newSize = (change) => {
   var len = current.length,
       size = Math.sqrt(len),
       isUp = change > 0;
 
-  var append = (arr, num) => {
-    arr.splice.bind(arr, arr.length, 0).apply(arr, zeroed(num));
-  };
-
+  var append = (arr, num) => arr.splice.bind(arr, arr.length, 0).apply(arr, zeroed(num))
   var remove = (arr, num) => arr.splice(arr.length - num, num);
 
   var getRightEdges = (arr) =>
@@ -67,27 +62,19 @@ var newSize = (change) => {
       elem % size === 0
     );
 
-  var increase = () => {
+  var increaseRightEdge = (cur, idx) => current.splice(cur, 0, 0);
+  var decreaseRightEdge = (cur, idx) => current.splice(cur, 1);
+
+  var resizeArray = (dirFunc, size, rightEdgeFunc) => {
     var rightEdges = getRightEdges(current);
-
-    append(current, size + 1);
-
-    rightEdges.reverse().map((cur, idx) => {
-      current.splice(cur, 0, 0)
-    });
+    dirFunc(current, size);
+    rightEdges.reverse().map(rightEdgeFunc);
   };
 
-  var decrease = () => {
-    var rightEdges = getRightEdges(current);
-
-    remove(current, size);
-
-    rightEdges.reverse().map((cur, idx) =>
-      current.splice(cur, 1)
-    );
-  };
-
-  return (isUp) ? increase() : decrease();
+  return (isUp) ?
+    resizeArray(append, size + 1, increaseRightEdge)
+  :
+    resizeArray(remove, size, decreaseRightEdge);
 };
 
 var switchState = (row, col) => {
