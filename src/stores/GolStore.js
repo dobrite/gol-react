@@ -1,8 +1,8 @@
 import GolDispatcher from '../dispatcher/GolDispatcher';
 import GolConstants  from '../constants/GolConstants';
 import GolActionCreators from '../actions/GolActionCreators';
-var EventEmitter = require('events').EventEmitter;
-var assign       = require('object-assign');
+var { EventEmitter } = require('events');
+var assign           = require('object-assign');
 
 var ActionTypes = GolConstants.ActionTypes,
     CHANGE_EVENT = 'change',
