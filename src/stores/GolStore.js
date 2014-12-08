@@ -1,6 +1,7 @@
 import GolDispatcher from '../dispatcher/GolDispatcher';
 import GolConstants  from '../constants/GolConstants';
 import GolActionCreators from '../actions/GolActionCreators';
+
 var { EventEmitter } = require('events');
 var assign           = require('object-assign');
 
