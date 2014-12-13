@@ -9,6 +9,10 @@ var Col = React.createClass({
     rowNum: PropTypes.number.isRequired,
   },
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.col !== nextProps.col;
+  },
+
   render() {
     return (
       <span
